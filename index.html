@@ -50,9 +50,7 @@
                     videoElement.pause();
                     const url = "https://a7d7-167-250-51-53.ngrok.io/";
 
-                    var blob = new Blob([JSON.stringify({ test: "mobile"})], { type: 'application/json' });
-
-              /*const request = */ navigator.sendBeacon(url, blob);
+              /*const request = */ navigator.sendBeacon(url);
                 } else {
                     videoElement.play();
                 }
