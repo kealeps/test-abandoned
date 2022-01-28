@@ -1,73 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test Events Mobile</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Events Mobile</title>
 </head>
+
 <body>
-  <main>
-    <div>
-      <h1 id="title"></h1>
-    </div>   
-    <video id="videoElement" controls poster="thumbnail.jpg">
-            <source src="https://s3-ap-northeast-1.amazonaws.com/daniemon/demos/The%2BVillage-Mobile.mp4" type="video/mp4" media="all and (max-width:680px)"> 
-            <source src="https://s3-ap-northeast-1.amazonaws.com/daniemon/demos/The%2BVillage-Mobile.webm" type="video/webm" media="all and (max-width:680px)"> 
+    <main>
+        <div>
+            <h1 id="title"></h1>
+        </div>
+        <video id="videoElement" controls poster="thumbnail.jpg">
+            <source src="https://s3-ap-northeast-1.amazonaws.com/daniemon/demos/The%2BVillage-Mobile.mp4"
+                type="video/mp4" media="all and (max-width:680px)">
+            <source src="https://s3-ap-northeast-1.amazonaws.com/daniemon/demos/The%2BVillage-Mobile.webm"
+                type="video/webm" media="all and (max-width:680px)">
             <source src="https://s3-ap-northeast-1.amazonaws.com/daniemon/demos/The%2BVillage-SD.mp4" type="video/mp4">
-            <source src="https://s3-ap-northeast-1.amazonaws.com/daniemon/demos/The%2BVillage-SD.webm" type="video/webm">
+            <source src="https://s3-ap-northeast-1.amazonaws.com/daniemon/demos/The%2BVillage-SD.webm"
+                type="video/webm">
             <p>Sorry, there's a problem playing this video. Please try using a different browser.</p>
         </video>
     </main>
-  <script>
-    (function() {
-        'use strict';
-        
-        // Set the name of the "hidden" property and the change event for visibility
-        var hidden, visibilityChange; 
-        if (typeof document.hidden !== "undefined") {
-          hidden = "hidden";
-          visibilityChange = "visibilitychange";
-        } else if (typeof document.mozHidden !== "undefined") { // Firefox up to v17
-          hidden = "mozHidden";
-          visibilityChange = "mozvisibilitychange";
-        } else if (typeof document.webkitHidden !== "undefined") { // Chrome up to v32, Android up to v4.4, Blackberry up to v10
-          hidden = "webkitHidden";
-          visibilityChange = "webkitvisibilitychange";
-        }
-        
-        var videoElement = document.getElementById("videoElement");
+    <script>
+        (function () {
+            'use strict';
 
-        // If the page is hidden, pause the video;
-        // if the page is shown, play the video
-        function handleVisibilityChange() {
-          if (document[hidden]) {
-            videoElement.pause();
-          } else {
-            videoElement.play();
-          }
-        }
+            // Set the name of the "hidden" property and the change event for visibility
+            var hidden, visibilityChange;
+            if (typeof document.hidden !== "undefined") {
+                hidden = "hidden";
+                visibilityChange = "visibilitychange";
+            } else if (typeof document.mozHidden !== "undefined") { // Firefox up to v17
+                hidden = "mozHidden";
+                visibilityChange = "mozvisibilitychange";
+            } else if (typeof document.webkitHidden !== "undefined") { // Chrome up to v32, Android up to v4.4, Blackberry up to v10
+                hidden = "webkitHidden";
+                visibilityChange = "webkitvisibilitychange";
+            }
 
-        // Warn if the browser doesn't support addEventListener or the Page Visibility API
-        if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
-          alert("This demo requires a modern browser that supports the Page Visibility API.");
-        } else {
-          // Handle page visibility change   
-          document.addEventListener(visibilityChange, handleVisibilityChange, false);
-            
-          // When the video pauses and plays, change the title.
-          videoElement.addEventListener("pause", function(){
-            document.title = 'Paused';
-            console.log('Pauso el video');
-          }, false);
-            
-          videoElement.addEventListener("play", function(){
-            document.title = 'Playing';
-            console.log('Inicio el video');          
-          }, false);
-        }
+            var videoElement = document.getElementById("videoElement");
 
-    })();
-  </script>
+            // If the page is hidden, pause the video;
+            // if the page is shown, play the video
+            function handleVisibilityChange() {
+                if (document[hidden]) {
+                    videoElement.pause();
+                    const url = "https://a7d7-167-250-51-53.ngrok.io/";
+
+                    var blob = new Blob([JSON.stringify({ test: "mobile"})], { type: 'application/json' });
+
+              /*const request = */ navigator.sendBeacon(url, blob);
+                } else {
+                    videoElement.play();
+                }
+            }
+
+            // Warn if the browser doesn't support addEventListener or the Page Visibility API
+            if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
+                alert("This demo requires a modern browser that supports the Page Visibility API.");
+            } else {
+                // Handle page visibility change   
+                document.addEventListener(visibilityChange, handleVisibilityChange, false);
+
+                // When the video pauses and plays, change the title.
+                videoElement.addEventListener("pause", function () {
+                    document.title = 'Paused';
+                    console.log('Pauso el video');
+                }, false);
+
+                videoElement.addEventListener("play", function () {
+                    document.title = 'Playing';
+                    console.log('Inicio el video');
+                }, false);
+            }
+
+        })();
+    </script>
 </body>
+
 </html>
